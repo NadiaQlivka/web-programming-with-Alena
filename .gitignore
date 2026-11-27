@@ -25,3 +25,6 @@ Thumbs.db
 __MACOSX/
 
 backend/src/backend/data/users.json
+
+# Local order data
+backend/src/backend/data/orders.json
