@@ -14,29 +14,13 @@ import { EmptyCart } from "../../components/EmptyCart/EmptyCart";
 import { Checkbox } from "../../components/Checkbox/Checkbox";
 import { Modal } from "../../components/Modal/Modal";
 import { Button } from "../../components/Button/Button";
+import { OrderHistory } from "../../components/OrderHistory/OrderHistory";
 
 import styles from "./CartPage.module.scss";
 
 type CartTab = "cart" | "history";
 
-function getProductWord(quantity: number): string {
-  const lastDigit = quantity % 10;
-  const lastTwoDigits = quantity % 100;
-
-  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
-    return "товаров";
-  }
-
-  if (lastDigit === 1) {
-    return "товар";
-  }
-
-  if (lastDigit >= 2 && lastDigit <= 4) {
-    return "товара";
-  }
-
-  return "товаров";
-}
+import { getProductWord } from "../../utils/getProductWord";
 
 export function CartPage() {
   const items = useCartStore((state) => state.items);
@@ -281,13 +265,7 @@ export function CartPage() {
           </>
           )
         ) : (
-          <section className={styles.history}>
-            <h2>История заказов</h2>
-
-            <p>
-              История заказов.
-            </p>
-          </section>
+          <OrderHistory />
         )}
 
       </div>
