@@ -7,6 +7,8 @@ import { Input } from "../../components/Input/Input";
 import { useAuthStore } from "../../store/authStore";
 import { ApiError } from "../../api/client";
 
+import { Modal } from "../../components/Modal/Modal";
+
 import styles from "./LoginPage.module.scss";
 
 export function LoginPage() {
@@ -130,12 +132,6 @@ export function LoginPage() {
             }}
           />
 
-          {serverError && (
-            <p className={styles.error} role="alert">
-              {serverError}
-            </p>
-          )}
-
           <Button
             type="submit"
             disabled={isSubmitting || isLoading}
@@ -146,6 +142,20 @@ export function LoginPage() {
         </form>
 
       </div>
+
+      <Modal
+        isOpen={Boolean(serverError)}
+        onClose={() => setServerError("")}
+        title="Ошибка авторизации"
+        actions={
+          <Button onClick={() => setServerError("")}>
+            Ок
+          </Button>
+        }
+      >
+        <p>{serverError}</p>
+      </Modal>
+
     </section>
   );
 }
