@@ -9,9 +9,13 @@ interface ModalProps {
   title: string;
   children?: ReactNode;
   actions?: ReactNode;
+  size?: "default" | "wide";
+  hideTitle?: boolean;
 }
 
 export function Modal({
+  size = "default",
+  hideTitle = false,
   isOpen,
   onClose,
   title,
@@ -42,7 +46,10 @@ export function Modal({
   return (
     <dialog
       ref={dialogRef}
-      className={styles.modal}
+      className={[
+      styles.modal,
+      size === "wide" ? styles.wide : ""
+    ].filter(Boolean).join(" ")}
       aria-labelledby={titleId}
       onCancel={(event) => {
         event.preventDefault();
@@ -74,7 +81,11 @@ export function Modal({
           </svg>
         </button>
 
-        <h2 id={titleId} className={styles.title}>
+        <h2 id={titleId} className={[
+        styles.title,
+        hideTitle ? styles.visuallyHidden : ""
+       ].filter(Boolean).join(" ")} 
+       >
           {title}
         </h2>
 

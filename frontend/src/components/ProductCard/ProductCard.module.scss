@@ -4,6 +4,7 @@
   padding: 12px;
   border-radius: 16px;
   background: $color-white;
+  position: relative;
 
   display: flex;
   flex-direction: column;
@@ -73,6 +74,7 @@
 
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
 }
 
@@ -128,4 +130,30 @@
   border-radius: 6px;
   padding: 12px;
   font-size: 12px;
+}
+
+.openDetails {
+  position: absolute;
+  inset: 0;
+
+  z-index: 1;
+
+  padding: 0;
+  border: none;
+
+  border-radius: inherit;
+  background: transparent;
+
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: 2px solid $color-blue-light;
+    outline-offset: 2px;
+  }
+}
+
+.addButton,
+.quantity {
+  position: relative;
+  z-index: 2;
 }
