@@ -9,11 +9,15 @@ import styles from "./ProductCard.module.scss";
 
 
 interface ProductCardProps {
-  product: Product;
+  product: Product
+  showCartControls?: boolean;
 }
 
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ 
+  product,
+  showCartControls = true
+}: ProductCardProps) {
   const quantity = useProductQuantity(product.id);
 
   const addProduct = useCartStore((state) => state.addProduct);
@@ -62,35 +66,40 @@ export default function ProductCard({ product }: ProductCardProps) {
         <span>★</span> {product.rating}
       </div>
 
-      {quantity === 0 ? (
-        <button
-          className={styles.addButton}
-          onClick={() => addProduct(product)}
-        >
-          В корзину
-        </button>
-      ) : (
-        <div className={styles.quantity}>
-          <span className={styles.inCart}>
-            В корзине
-          </span>
-
+      {showCartControls && (
+        quantity === 0 ? (
           <button
-            aria-label="Уменьшить количество"
-            onClick={() => decreaseQuantity(product.id)}
+            type="button"
+            className={styles.addButton}
+            onClick={() => addProduct(product)}
           >
-            −
+            В корзину
           </button>
+        ) : (
+          <div className={styles.quantity}>
+            <span className={styles.inCart}>
+              В корзине
+            </span>
 
-          <span>{quantity}</span>
+            <button
+              type="button"
+              aria-label="Уменьшить количество"
+              onClick={() => decreaseQuantity(product.id)}
+            >
+              −
+            </button>
 
-          <button
-            aria-label="Увеличить количество"
-            onClick={() => increaseQuantity(product.id)}
-          >
-            +
-          </button>
-        </div>
+            <span>{quantity}</span>
+
+            <button
+              type="button"
+              aria-label="Увеличить количество"
+              onClick={() => increaseQuantity(product.id)}
+            >
+              +
+            </button>
+          </div>
+        )
       )}
     </article>
   );
