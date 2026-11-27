@@ -1,3 +1,5 @@
+@use "../../styles/variables" as *;
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -12,24 +14,24 @@
     border: 1px solid transparent;
     border-radius: 6px;
 
-    background: white;
-    color: #005bff;
+    background: $color-white;
+    color: $color-blue;
 
     font: inherit;
     cursor: pointer;
 
     &:hover:not(:disabled) {
-      border-color: #005bff;
+      border-color: $color-blue;
     }
 
     &:disabled {
-      color: #cccccc;
+      color: $color-text-placeholder;
       cursor: default;
     }
 
     &.active {
-      background: #005bff;
-      color: white;
+      background: $color-blue;
+      color: $color-white;
     }
   }
 }
@@ -41,5 +43,5 @@
 }
 
 .dots {
-  color: #666666;
+  color: $color-text-muted;
 }
