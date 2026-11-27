@@ -9,6 +9,7 @@ import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
 
 import { Header } from "./components/Header/Header";
+import { Footer } from "./components/Footer/Footer";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -52,6 +53,8 @@ function App() {
           />
         </Routes>
       </main>
+
+      <Footer />
 
     </BrowserRouter>
   );
