@@ -8,6 +8,8 @@ import {
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
 
+import Catalog from "./pages/Catalog/Catalog";
+
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { HomePage } from "./pages/HomePage/HomePage";
@@ -39,7 +41,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route
               path="/catalog"
-              element={<h1>Каталог товаров</h1>}
+              element={<Catalog />}
             />
 
             <Route

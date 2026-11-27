@@ -1,0 +1,45 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-top: 32px;
+
+  button {
+    min-width: 36px;
+    height: 36px;
+
+    border: 1px solid transparent;
+    border-radius: 6px;
+
+    background: white;
+    color: #005bff;
+
+    font: inherit;
+    cursor: pointer;
+
+    &:hover:not(:disabled) {
+      border-color: #005bff;
+    }
+
+    &:disabled {
+      color: #cccccc;
+      cursor: default;
+    }
+
+    &.active {
+      background: #005bff;
+      color: white;
+    }
+  }
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dots {
+  color: #666666;
+}
