@@ -1,0 +1,21 @@
+@use "../../styles/variables" as *;
+
+.homePage {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+
+  padding-bottom: 80px;
+}
+
+.banner {
+  width: 100%;
+  border-radius: 40px;
+  overflow: hidden;
+}
+
+.bannerImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}

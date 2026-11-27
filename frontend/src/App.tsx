@@ -10,6 +10,7 @@ import { useAuthStore } from "./store/authStore";
 
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
+import { HomePage } from "./pages/HomePage/HomePage";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -23,7 +24,7 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<h1>Главная страница</h1>}
+            element={<HomePage />}
           />
 
           <Route
