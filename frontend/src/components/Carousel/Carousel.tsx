@@ -57,22 +57,10 @@ export function Carousel({
 
         <div className={`${styles.icon} ${styles[variant]}`}>
           {variant === "hit" ? (
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M12 2C14 7 9 9 13 13C15 11 16 8 16 6C20 10 22 14 20 18C18 23 10 24 6 20C2 16 5 9 8 6C7 10 9 12 10 12C8 8 12 5 12 2Z" />
-            </svg>
+            <img src="/images/icons/fire.svg" alt="" />
           ) : (
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <path d="M10 3L12.5 9.5L19 12L12.5 14.5L10 21L7.5 14.5L1 12L7.5 9.5Z" />
-              <path d="M19 1L20.2 4.8L24 6L20.2 7.2L19 11L17.8 7.2L14 6L17.8 4.8Z" />
-            </svg>
+            <img src="/images/icons/sparkles.svg" alt="" />
+
           )}
         </div>
 
@@ -129,15 +117,6 @@ export function Carousel({
           disabled={!canScroll}
           aria-label={`Следующий товар: ${title}`}
         >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            aria-hidden="true"
-          >
-            <path d="M9 5L16 12L9 19" />
-          </svg>
         </button>
 
       </div>

@@ -4,6 +4,8 @@ import { getGoods } from "../../api/goods";
 import type { Product } from "../../types/product";
 
 import { Carousel } from "../../components/Carousel/Carousel";
+import { Advantages } from "../../components/Advantages/Advantages";
+import { Contacts } from "../../components/Contacts/Contacts";
 
 import styles from "./HomePage.module.scss";
 
@@ -54,7 +56,7 @@ export function HomePage() {
       >
         <img
           src="/images/banners/super-sale-banner.png"
-          alt="Super Sale — умный робот-друг Red solution Reddy Air. Скидка 10%, цена 27 990 рублей."
+          alt="Super Sale — умная колонка Яндекс Станция Лайт всего за 4 990 рублей."
           className={styles.bannerImage}
           width={1240}
           height={560}
@@ -86,6 +88,10 @@ export function HomePage() {
           />
         </>
       )}
+     
+      <Advantages />
+
+      <Contacts />
 
     </div>
   );
