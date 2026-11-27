@@ -14,6 +14,7 @@ import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { HomePage } from "./pages/HomePage/HomePage";
 import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { CartPage } from "./pages/CartPage/CartPage";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -47,7 +48,7 @@ function App() {
 
             <Route
               path="/cart"
-              element={<h1>Корзина</h1>}
+              element={<CartPage />}
             />
           </Route>
 
