@@ -117,6 +117,16 @@ export function Carousel({
           disabled={!canScroll}
           aria-label={`Следующий товар: ${title}`}
         >
+
+            <svg
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    aria-hidden="true"
+  >
+    <path d="M9 5L16 12L9 19" />
+  </svg>
         </button>
 
       </div>

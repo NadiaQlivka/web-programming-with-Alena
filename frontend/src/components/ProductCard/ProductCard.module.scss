@@ -5,6 +5,7 @@
   border-radius: 16px;
   background: $color-white;
   position: relative;
+  isolation: isolate;
 
   display: flex;
   flex-direction: column;
