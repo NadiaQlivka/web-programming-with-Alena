@@ -13,6 +13,7 @@ import Catalog from "./pages/Catalog/Catalog";
 import { Header } from "./components/Header/Header";
 import { Footer } from "./components/Footer/Footer";
 import { HomePage } from "./pages/HomePage/HomePage";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
 
 function App() {
   const user = useAuthStore((state) => state.user);
@@ -34,7 +35,7 @@ function App() {
             element={
               user
                 ? <Navigate to="/" replace />
-                : <h1>Авторизация</h1>
+                : <LoginPage />
             }
           />
 
