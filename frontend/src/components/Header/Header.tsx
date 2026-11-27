@@ -7,6 +7,8 @@ import {
 
 import { useAuthStore } from "../../store/authStore";
 import { useCartQuantity } from "../../store/cartStore";
+import { Modal } from "../Modal/Modal";
+import { Button } from "../Button/Button";
 
 import styles from "./Header.module.scss";
 
@@ -20,6 +22,8 @@ export function Header() {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [isLogoutModalOpen, setIsLogoutModalOpen] =
+  useState(false);
 
   useEffect(() => {
     function handleScroll() {
@@ -40,6 +44,7 @@ export function Header() {
 
     try {
       await logout();
+      setIsLogoutModalOpen(false);
       navigate("/", { replace: true });
     } catch {
       alert("Не удалось выйти из аккаунта. Попробуйте ещё раз.");
@@ -124,7 +129,7 @@ export function Header() {
                 <button
                   type="button"
                   className={styles.navButton}
-                  onClick={handleLogout}
+                  onClick={() => setIsLogoutModalOpen(true)}
                   disabled={isLoggingOut}
                 >
                   <img
@@ -154,6 +159,35 @@ export function Header() {
 
         </nav>
       </div>
+      <Modal
+  isOpen={isLogoutModalOpen}
+  onClose={() => {
+    if (!isLoggingOut) {
+      setIsLogoutModalOpen(false);
+    }
+  }}
+  title="Выход из аккаунта"
+  actions={
+    <>
+      <Button
+        disabled={isLoggingOut}
+        onClick={() => setIsLogoutModalOpen(false)}
+      >
+        Отмена
+      </Button>
+
+      <Button
+        variant="pink"
+        disabled={isLoggingOut}
+        onClick={handleLogout}
+      >
+        {isLoggingOut ? "Выходим..." : "Выйти"}
+      </Button>
+    </>
+  }
+>
+  <p>Вы уверены, что хотите выйти из аккаунта?</p>
+</Modal>
     </header>
   );
 }
