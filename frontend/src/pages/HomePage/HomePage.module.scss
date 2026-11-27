@@ -19,3 +19,13 @@
   width: 100%;
   height: auto;
 }
+
+.status {
+  color: $color-text-muted;
+  text-align: center;
+}
+
+.error {
+  color: $color-pink-dark;
+  text-align: center;
+}
