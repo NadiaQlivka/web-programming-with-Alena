@@ -1,3 +1,10 @@
+import { CheckoutForm } from "../../components/CheckoutForm/CheckoutForm";
+
+import { createOrder } from "../../api/orders";
+import { ApiError } from "../../api/client";
+
+import type { Order, OrderRequest } from "../../types/order";
+
 import { useState } from "react";
 
 import { useCartStore } from "../../store/cartStore";
@@ -55,6 +62,13 @@ export function CartPage() {
   const [deleteIds, setDeleteIds] =
     useState<number[]>([]);
 
+  const [isOrdering, setIsOrdering] = useState(false);
+
+  const [completedOrder, setCompletedOrder] =
+  useState<Order | null>(null);
+
+  const [orderError, setOrderError] = useState("");
+
   const selectedItems = items.filter((item) =>
     selectedIds.includes(item.product.id)
   );
@@ -106,6 +120,61 @@ export function CartPage() {
     (item) => item.product.id === deleteIds[0]
   );
 
+  async function handleOrder(
+  data: OrderRequest
+): Promise<boolean> {
+
+  if (isOrdering) return false;
+
+  setIsOrdering(true);
+  setOrderError("");
+
+  try {
+    const order = await createOrder(data);
+
+    const orderedIds = data.items.map(
+      (item) => item.product_id
+    );
+
+    removeProducts(orderedIds);
+
+    setSelectedIds([]);
+
+    if (useCartStore.getState().items.length === 0) {
+      useCartStore.persist.clearStorage();
+    }
+
+    setCompletedOrder(order);
+
+    return true;
+
+  } catch (error) {
+
+    if (error instanceof ApiError) {
+      if (error.status === 401) {
+        setOrderError(
+          "Сессия истекла. Войдите в аккаунт повторно."
+        );
+      } else if (error.status === 422) {
+        setOrderError(
+          "Проверьте правильность заполнения данных заказа."
+        );
+      } else {
+        setOrderError(error.message);
+      }
+    } else {
+      setOrderError(
+        "Не удалось оформить заказ. Попробуйте позже."
+      );
+    }
+
+    return false;
+
+  } finally {
+    setIsOrdering(false);
+  }
+}
+
   return (
     <section className={styles.cartPage}>
       <div className={`container ${styles.container}`}>
@@ -140,8 +209,12 @@ export function CartPage() {
         {activeTab === "cart" ? (
           items.length === 0 ? (
             <EmptyCart />
-          ) : (
-            <section className={styles.cartContent}>
+        ) : (
+            <>
+                <section
+                    className={styles.cartContent}
+                    inert={isOrdering}
+                >
 
               <div className={styles.toolbar}>
 
@@ -198,6 +271,14 @@ export function CartPage() {
               </div>
 
             </section>
+
+            <CheckoutForm
+              selectedItems={selectedItems}
+              isSubmitting={isOrdering}
+              onSubmit={handleOrder}
+            />
+
+          </>
           )
         ) : (
           <section className={styles.history}>
@@ -237,6 +318,48 @@ export function CartPage() {
             : "Выбранные товары будут удалены из корзины."}
         </p>
       </Modal>
+
+      <Modal
+  isOpen={completedOrder !== null}
+  onClose={() => setCompletedOrder(null)}
+  title="Спасибо за заказ!"
+  actions={
+    <Button onClick={() => setCompletedOrder(null)}>
+      Ок
+    </Button>
+  }
+>
+  {completedOrder && (
+    <div className={styles.orderSuccess}>
+
+      <p>Спасибо, ваш заказ успешно оформлен.</p>
+
+      <p>
+        Номер заказа {completedOrder.id}.
+      </p>
+
+      <p>
+        {completedOrder.delivery === "delivery"
+          ? "Мы свяжемся с вами в течение 10 минут, чтобы уточнить удобное для вас время доставки."
+          : "Мы свяжемся с вами для уточнения деталей самовывоза."}
+      </p>
+
+    </div>
+  )}
+</Modal>
+
+<Modal
+  isOpen={Boolean(orderError)}
+  onClose={() => setOrderError("")}
+  title="Ошибка оформления заказа"
+  actions={
+    <Button onClick={() => setOrderError("")}>
+      Ок
+    </Button>
+  }
+>
+  <p>{orderError}</p>
+</Modal>
 
     </section>
   );

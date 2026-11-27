@@ -145,3 +145,9 @@
     color: $color-pink-dark;
   }
 }
+
+.orderSuccess {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}

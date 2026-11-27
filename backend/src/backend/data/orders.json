@@ -1,1 +1,24 @@
-[]
+[
+    {
+        "id": 1,
+        "user_id": 1,
+        "created_at": "2026-11-27T20:30:39.210281+00:00",
+        "items": [
+            {
+                "product_id": 9,
+                "name": "Часы с GPS трекером черные",
+                "price": 2000,
+                "quantity": 5,
+                "total_price": 10000
+            }
+        ],
+        "total_price": 10000,
+        "total_quantity": 5,
+        "phone": "88005553535",
+        "email": "dd@gmail.com",
+        "delivery": "delivery",
+        "address": "какащке",
+        "payment": "card",
+        "packaging": true
+    }
+]
