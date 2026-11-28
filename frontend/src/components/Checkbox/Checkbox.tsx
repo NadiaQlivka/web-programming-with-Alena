@@ -1,25 +1,27 @@
-import type { InputHTMLAttributes } from "react";
+import type {InputHTMLAttributes} from 'react';
 
-import styles from "./Checkbox.module.scss";
+import styles from './Checkbox.module.scss';
 
-interface CheckboxProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "children"> {
+interface CheckboxProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'type' | 'children'
+> {
   label?: string;
 }
 
 export function Checkbox({
   label,
   disabled = false,
-  className = "",
+  className = '',
   ...props
 }: CheckboxProps) {
   const wrapperClassName = [
     styles.wrapper,
-    disabled ? styles.disabled : "",
-    className
+    disabled ? styles.disabled : '',
+    className,
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 
   return (
     <label className={wrapperClassName}>
@@ -30,16 +32,9 @@ export function Checkbox({
         disabled={disabled}
       />
 
-      <span
-        className={styles.mark}
-        aria-hidden="true"
-      />
+      <span className={styles.mark} aria-hidden="true" />
 
-      {label && (
-        <span className={styles.label}>
-          {label}
-        </span>
-      )}
+      {label && <span className={styles.label}>{label}</span>}
     </label>
   );
 }

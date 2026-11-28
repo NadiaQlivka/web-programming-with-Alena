@@ -1,10 +1,9 @@
-import { useId } from "react";
-import type { InputHTMLAttributes } from "react";
+import {useId} from 'react';
+import type {InputHTMLAttributes} from 'react';
 
-import styles from "./Input.module.scss";
+import styles from './Input.module.scss';
 
-interface InputProps
-  extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   helperText?: string;
   error?: string;
@@ -18,7 +17,7 @@ export function Input({
   fullWidth = false,
   required = false,
   disabled = false,
-  className = "",
+  className = '',
   id,
   ...props
 }: InputProps) {
@@ -28,32 +27,22 @@ export function Input({
 
   const wrapperClassName = [
     styles.wrapper,
-    fullWidth ? styles.fullWidth : "",
-    error ? styles.error : "",
-    disabled ? styles.disabled : ""
+    fullWidth ? styles.fullWidth : '',
+    error ? styles.error : '',
+    disabled ? styles.disabled : '',
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 
-  const inputClassName = [
-    styles.input,
-    className
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const inputClassName = [styles.input, className].filter(Boolean).join(' ');
 
   return (
     <div className={wrapperClassName}>
       {label && (
-        <label
-          htmlFor={inputId}
-          className={styles.label}
-        >
+        <label htmlFor={inputId} className={styles.label}>
           {label}
 
-          {required && (
-            <span className={styles.required}>*</span>
-          )}
+          {required && <span className={styles.required}>*</span>}
         </label>
       )}
 
@@ -64,16 +53,11 @@ export function Input({
         required={required}
         disabled={disabled}
         aria-invalid={Boolean(error)}
-        aria-describedby={
-          error || helperText ? messageId : undefined
-        }
+        aria-describedby={error || helperText ? messageId : undefined}
       />
 
       {(error || helperText) && (
-        <span
-          id={messageId}
-          className={styles.message}
-        >
+        <span id={messageId} className={styles.message}>
           {error || helperText}
         </span>
       )}

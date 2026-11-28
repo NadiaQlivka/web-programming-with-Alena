@@ -1,53 +1,37 @@
-import { useMemo, useState } from "react";
-import type { Product } from "../types/product";
+import {useMemo, useState} from 'react';
+import type {Product} from '../types/product';
 
-import {
-  emptyFilters,
-  type CatalogFilters
-} from "../types/filters";
+import {emptyFilters, type CatalogFilters} from '../types/filters';
 
-export type SortField = "price" | "rating" | "createdAt";
-export type SortDirection = "asc" | "desc";
+export type SortField = 'price' | 'rating' | 'createdAt';
+export type SortDirection = 'asc' | 'desc';
 
 const PAGE_SIZE = 9;
 
 export function useCatalog(products: Product[]) {
-  const [sortField, setSortField] =
-    useState<SortField>("createdAt");
+  const [sortField, setSortField] = useState<SortField>('createdAt');
 
-  const [sortDirection, setSortDirection] =
-    useState<SortDirection>("desc");
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
 
-  const [filters, setFilters] =
-    useState<CatalogFilters>(emptyFilters);
+  const [filters, setFilters] = useState<CatalogFilters>(emptyFilters);
 
   const [page, setPage] = useState(1);
 
   const categories = useMemo(() => {
-    return [...new Set(
-      products.map((product) => product.category)
-    )].sort();
+    return [...new Set(products.map((product) => product.category))].sort();
   }, [products]);
 
   const colors = useMemo(() => {
-    return [...new Set(
-      products.map((product) => product.color)
-    )].sort();
+    return [...new Set(products.map((product) => product.color))].sort();
   }, [products]);
 
   const filteredProducts = useMemo(() => {
     return products.filter((product) => {
-      if (
-        filters.minPrice !== "" &&
-        product.price < Number(filters.minPrice)
-      ) {
+      if (filters.minPrice !== '' && product.price < Number(filters.minPrice)) {
         return false;
       }
 
-      if (
-        filters.maxPrice !== "" &&
-        product.price > Number(filters.maxPrice)
-      ) {
+      if (filters.maxPrice !== '' && product.price > Number(filters.maxPrice)) {
         return false;
       }
 
@@ -74,35 +58,27 @@ export function useCatalog(products: Product[]) {
       let result = 0;
 
       switch (sortField) {
-        case "price":
+        case 'price':
           result = a.price - b.price;
           break;
 
-        case "rating":
+        case 'rating':
           result = a.rating - b.rating;
           break;
 
-        case "createdAt":
+        case 'createdAt':
           result =
-            new Date(a.createdAt).getTime() -
-            new Date(b.createdAt).getTime();
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
           break;
       }
 
-      return sortDirection === "asc"
-        ? result
-        : -result;
+      return sortDirection === 'asc' ? result : -result;
     });
   }, [filteredProducts, sortField, sortDirection]);
 
-  const totalPages = Math.ceil(
-    sortedProducts.length / PAGE_SIZE
-  );
+  const totalPages = Math.ceil(sortedProducts.length / PAGE_SIZE);
 
-  const currentPage = Math.max(
-    1,
-    Math.min(page, totalPages)
-  );
+  const currentPage = Math.max(1, Math.min(page, totalPages));
 
   const paginatedProducts = useMemo(() => {
     const start = (currentPage - 1) * PAGE_SIZE;
@@ -113,6 +89,7 @@ export function useCatalog(products: Product[]) {
 
   function resetFilters() {
     setFilters(emptyFilters);
+    setPage(1);
   }
 
   return {
@@ -129,6 +106,6 @@ export function useCatalog(products: Product[]) {
     colors,
     filters,
     setFilters,
-    resetFilters
+    resetFilters,
   };
 }

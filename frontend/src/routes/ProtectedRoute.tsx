@@ -1,6 +1,5 @@
-import { Navigate, Outlet } from "react-router-dom";
-import { useAuthStore } from "../store/authStore";
-
+import {Navigate, Outlet} from 'react-router-dom';
+import {useAuthStore} from '../store/authStore';
 
 export function ProtectedRoute() {
   const user = useAuthStore((state) => state.user);
@@ -16,9 +15,7 @@ export function ProtectedRoute() {
     return (
       <div>
         <p>{error}</p>
-        <button onClick={() => initialize()}>
-          Повторить
-        </button>
+        <button onClick={() => initialize()}>Повторить</button>
       </div>
     );
   }

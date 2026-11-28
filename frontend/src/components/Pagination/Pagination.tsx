@@ -1,4 +1,4 @@
-import styles from "./Pagination.module.scss";
+import styles from './Pagination.module.scss';
 
 interface PaginationProps {
   currentPage: number;
@@ -9,29 +9,34 @@ interface PaginationProps {
 export default function Pagination({
   currentPage,
   totalPages,
-  onPageChange
+  onPageChange,
 }: PaginationProps) {
   if (totalPages <= 1) {
     return null;
   }
 
-  const pages = Array.from(
-    new Set([
-      1,
-      2,
-      3,
-      currentPage,
-      totalPages
-    ])
-  )
-    .filter((page) => page <= totalPages)
-    .sort((a, b) => a - b);
+  const pages: (number | string)[] = [];
+
+  if (totalPages <= 3) {
+    for (let page = 1; page <= totalPages; page++) {
+      pages.push(page);
+    }
+  } else {
+    pages.push(1, 2, 3, '...');
+
+    if (currentPage > 3 && currentPage < totalPages) {
+      pages.push(currentPage);
+
+      if (currentPage < totalPages - 1) {
+        pages.push('...');
+      }
+    }
+
+    pages.push(totalPages);
+  }
 
   return (
-    <nav
-      className={styles.pagination}
-      aria-label="Страницы каталога"
-    >
+    <nav className={styles.pagination} aria-label="Страницы каталога">
       <button
         type="button"
         disabled={currentPage === 1}
@@ -41,33 +46,23 @@ export default function Pagination({
         ←
       </button>
 
-      {pages.map((page, index) => (
-        <span key={page} className={styles.item}>
-          {index > 0 &&
-            page - pages[index - 1] > 1 && (
-              <span className={styles.dots}>
-                ...
-              </span>
-            )}
-
+      {pages.map((page, index) =>
+        typeof page === 'number' ? (
           <button
+            key={page}
             type="button"
-            className={
-              page === currentPage
-                ? styles.active
-                : ""
-            }
-            aria-current={
-              page === currentPage
-                ? "page"
-                : undefined
-            }
+            className={page === currentPage ? styles.active : ''}
+            aria-current={page === currentPage ? 'page' : undefined}
             onClick={() => onPageChange(page)}
           >
             {page}
           </button>
-        </span>
-      ))}
+        ) : (
+          <span key={`dots-${index}`} className={styles.dots}>
+            ...
+          </span>
+        ),
+      )}
 
       <button
         type="button"

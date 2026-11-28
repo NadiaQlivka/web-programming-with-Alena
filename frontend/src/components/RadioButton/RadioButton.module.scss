@@ -1,4 +1,4 @@
-@use "../../styles/variables" as *;
+@use '../../styles/variables' as *;
 
 .wrapper {
   position: relative;
@@ -43,7 +43,7 @@
   border-radius: $radius-round;
 
   &::after {
-    content: "";
+    content: '';
 
     width: 8px;
     height: 8px;

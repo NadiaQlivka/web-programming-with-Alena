@@ -1,9 +1,8 @@
-import { create } from "zustand";
+import {create} from 'zustand';
 
-import { login, logout, getCurrentUser } from "../api/auth";
-import { ApiError } from "../api/client";
-import type { User, LoginRequest } from "../types/auth";
-
+import {login, logout, getCurrentUser} from '../api/auth';
+import {ApiError} from '../api/client';
+import type {User, LoginRequest} from '../types/auth';
 
 interface AuthState {
   user: User | null;
@@ -15,42 +14,41 @@ interface AuthState {
   logout: () => Promise<void>;
 }
 
-
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isLoading: true,
   error: null,
 
   initialize: async () => {
-    set({ isLoading: true, error: null });
+    set({isLoading: true, error: null});
 
     try {
       const user = await getCurrentUser();
 
-      set({ user });
+      set({user});
     } catch (error) {
       if (error instanceof ApiError && error.status === 401) {
-        set({ user: null });
+        set({user: null});
       } else {
         set({
           user: null,
-          error: "Не удалось проверить авторизацию"
+          error: 'Не удалось проверить авторизацию',
         });
       }
     } finally {
-      set({ isLoading: false });
+      set({isLoading: false});
     }
   },
 
   login: async (data) => {
     const user = await login(data);
 
-    set({ user, error: null });
+    set({user, error: null});
   },
 
   logout: async () => {
     await logout();
 
-    set({ user: null, error: null });
-  }
+    set({user: null, error: null});
+  },
 }));

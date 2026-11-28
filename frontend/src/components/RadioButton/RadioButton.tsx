@@ -1,9 +1,11 @@
-import type { InputHTMLAttributes } from "react";
+import type {InputHTMLAttributes} from 'react';
 
-import styles from "./RadioButton.module.scss";
+import styles from './RadioButton.module.scss';
 
-interface RadioButtonProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "type" | "children"> {
+interface RadioButtonProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'type' | 'children'
+> {
   label: string;
   name: string;
 }
@@ -12,16 +14,16 @@ export function RadioButton({
   label,
   name,
   disabled = false,
-  className = "",
+  className = '',
   ...props
 }: RadioButtonProps) {
   const wrapperClassName = [
     styles.wrapper,
-    disabled ? styles.disabled : "",
-    className
+    disabled ? styles.disabled : '',
+    className,
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(' ');
 
   return (
     <label className={wrapperClassName}>
@@ -33,14 +35,9 @@ export function RadioButton({
         className={styles.input}
       />
 
-      <span
-        className={styles.mark}
-        aria-hidden="true"
-      />
+      <span className={styles.mark} aria-hidden="true" />
 
-      <span className={styles.label}>
-        {label}
-      </span>
+      <span className={styles.label}>{label}</span>
     </label>
   );
 }

@@ -1,15 +1,12 @@
-import { useState } from "react";
+import {useState} from 'react';
 
-import type { Product } from "../../types/product";
+import type {Product} from '../../types/product';
 
-import {
-  useCartStore,
-  useProductQuantity
-} from "../../store/cartStore";
+import {useCartStore, useProductQuantity} from '../../store/cartStore';
 
-import { ProductModal } from "../ProductModal/ProductModal";
+import {ProductModal} from '../ProductModal/ProductModal';
 
-import styles from "./ProductCard.module.scss";
+import styles from './ProductCard.module.scss';
 
 interface ProductCardProps {
   product: Product;
@@ -18,30 +15,21 @@ interface ProductCardProps {
 
 export default function ProductCard({
   product,
-  showCartControls = true
+  showCartControls = true,
 }: ProductCardProps) {
-
-  const [isProductModalOpen, setIsProductModalOpen] =
-    useState(false);
+  const [isProductModalOpen, setIsProductModalOpen] = useState(false);
 
   const quantity = useProductQuantity(product.id);
 
-  const addProduct = useCartStore(
-    (state) => state.addProduct
-  );
+  const addProduct = useCartStore((state) => state.addProduct);
 
-  const increaseQuantity = useCartStore(
-    (state) => state.increaseQuantity
-  );
+  const increaseQuantity = useCartStore((state) => state.increaseQuantity);
 
-  const decreaseQuantity = useCartStore(
-    (state) => state.decreaseQuantity
-  );
+  const decreaseQuantity = useCartStore((state) => state.decreaseQuantity);
 
   return (
     <>
       <article className={styles.card}>
-
         <button
           type="button"
           className={styles.openDetails}
@@ -51,7 +39,6 @@ export default function ProductCard({
         />
 
         <div className={styles.imageContainer}>
-
           <img
             src={product.image}
             alt={product.name}
@@ -59,38 +46,24 @@ export default function ProductCard({
           />
 
           <div className={styles.labels}>
+            {product.isNew && <span className={styles.new}>Новинка</span>}
 
-            {product.isNew && (
-              <span className={styles.new}>
-                Новинка
-              </span>
-            )}
-
-            {product.isHit && (
-              <span className={styles.hit}>
-                Хит
-              </span>
-            )}
-
+            {product.isHit && <span className={styles.hit}>Хит</span>}
           </div>
-
         </div>
 
         <div className={styles.price}>
-          {product.price.toLocaleString("ru-RU")} ₽
+          {product.price.toLocaleString('ru-RU')} ₽
         </div>
 
-        <div className={styles.name}>
-          {product.name}
-        </div>
+        <div className={styles.name}>{product.name}</div>
 
         <div className={styles.rating}>
           <span>★</span> {product.rating}
         </div>
 
-        {showCartControls && (
-          quantity === 0 ? (
-
+        {showCartControls &&
+          (quantity === 0 ? (
             <button
               type="button"
               className={styles.addButton}
@@ -98,14 +71,9 @@ export default function ProductCard({
             >
               В корзину
             </button>
-
           ) : (
-
             <div className={styles.quantity}>
-
-              <span className={styles.inCart}>
-                В корзине
-              </span>
+              <span className={styles.inCart}>В корзине</span>
 
               <button
                 type="button"
@@ -124,12 +92,8 @@ export default function ProductCard({
               >
                 +
               </button>
-
             </div>
-
-          )
-        )}
-
+          ))}
       </article>
 
       {isProductModalOpen && (
@@ -139,7 +103,6 @@ export default function ProductCard({
           onClose={() => setIsProductModalOpen(false)}
         />
       )}
-
     </>
   );
 }

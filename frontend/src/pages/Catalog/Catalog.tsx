@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from 'react';
 
-import { getGoods } from "../../api/goods";
-import type { Product } from "../../types/product";
-import { useCatalog } from "../../hooks/useCatalog";
+import {getGoods} from '../../api/goods';
+import type {Product} from '../../types/product';
+import {useCatalog} from '../../hooks/useCatalog';
 
-import ProductCard from "../../components/ProductCard/ProductCard";
-import Pagination from "../../components/Pagination/Pagination";
+import ProductCard from '../../components/ProductCard/ProductCard';
+import Pagination from '../../components/Pagination/Pagination';
 
-import CatalogSort from "./components/CatalogSort/CatalogSort";
-import CatalogFilter from "./components/CatalogFilter/CatalogFilter";
+import CatalogSort from './components/CatalogSort/CatalogSort';
+import CatalogFilter from './components/CatalogFilter/CatalogFilter';
 
-import styles from "./Catalog.module.scss";
+import styles from './Catalog.module.scss';
 
 export default function Catalog() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -29,14 +29,14 @@ export default function Catalog() {
     categories,
     colors,
     setFilters,
-    resetFilters
+    resetFilters,
   } = useCatalog(products);
 
   useEffect(() => {
     getGoods()
       .then(setProducts)
       .catch(() => {
-        setError("Не удалось загрузить товары");
+        setError('Не удалось загрузить товары');
       })
       .finally(() => {
         setIsLoading(false);
@@ -52,7 +52,7 @@ export default function Catalog() {
   }
 
   return (
-    <main className={styles.catalog}>
+    <section className={styles.catalog}>
       <h1>Каталог товаров</h1>
 
       <CatalogSort
@@ -76,10 +76,7 @@ export default function Catalog() {
             <>
               <div className={styles.products}>
                 {paginatedProducts.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                  />
+                  <ProductCard key={product.id} product={product} />
                 ))}
               </div>
 
@@ -91,7 +88,7 @@ export default function Catalog() {
 
                   window.scrollTo({
                     top: 0,
-                    behavior: "smooth"
+                    behavior: 'smooth',
                   });
                 }}
               />
@@ -109,6 +106,6 @@ export default function Catalog() {
           onReset={resetFilters}
         />
       </div>
-    </main>
+    </section>
   );
 }

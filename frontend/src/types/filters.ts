@@ -6,8 +6,8 @@ export interface CatalogFilters {
 }
 
 export const emptyFilters: CatalogFilters = {
-  minPrice: "",
-  maxPrice: "",
+  minPrice: '',
+  maxPrice: '',
   categories: [],
-  colors: []
+  colors: [],
 };

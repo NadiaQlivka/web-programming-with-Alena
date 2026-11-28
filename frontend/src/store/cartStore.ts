@@ -1,9 +1,8 @@
-import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import {create} from 'zustand';
+import {persist} from 'zustand/middleware';
 
-import type { Product } from "../types/product";
-import type { CartItem } from "../types/cart";
-
+import type {Product} from '../types/product';
+import type {CartItem} from '../types/cart';
 
 interface CartState {
   items: CartItem[];
@@ -18,7 +17,6 @@ interface CartState {
   clearCart: () => void;
 }
 
-
 export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
@@ -27,7 +25,7 @@ export const useCartStore = create<CartState>()(
       addProduct: (product) => {
         set((state) => {
           const existing = state.items.find(
-            (item) => item.product.id === product.id
+            (item) => item.product.id === product.id,
           );
 
           if (existing) {
@@ -35,11 +33,11 @@ export const useCartStore = create<CartState>()(
               items: state.items.map((item) =>
                 item.product.id === product.id
                   ? {
-                    ...item,
-                    quantity: item.quantity + 1
-                  }
-                  : item
-              )
+                      ...item,
+                      quantity: item.quantity + 1,
+                    }
+                  : item,
+              ),
             };
           }
 
@@ -48,9 +46,9 @@ export const useCartStore = create<CartState>()(
               ...state.items,
               {
                 product,
-                quantity: 1
-              }
-            ]
+                quantity: 1,
+              },
+            ],
           };
         });
       },
@@ -60,11 +58,11 @@ export const useCartStore = create<CartState>()(
           items: state.items.map((item) =>
             item.product.id === id
               ? {
-                ...item,
-                quantity: item.quantity + 1
-              }
-              : item
-          )
+                  ...item,
+                  quantity: item.quantity + 1,
+                }
+              : item,
+          ),
         }));
       },
 
@@ -74,70 +72,59 @@ export const useCartStore = create<CartState>()(
             .map((item) =>
               item.product.id === id
                 ? {
-                  ...item,
-                  quantity: item.quantity - 1
-                }
-                : item
+                    ...item,
+                    quantity: item.quantity - 1,
+                  }
+                : item,
             )
-            .filter((item) => item.quantity > 0)
+            .filter((item) => item.quantity > 0),
         }));
       },
 
       removeProduct: (id) => {
         set((state) => ({
-          items: state.items.filter(
-            (item) => item.product.id !== id
-          )
+          items: state.items.filter((item) => item.product.id !== id),
         }));
       },
 
       removeProducts: (ids) => {
         set((state) => ({
-          items: state.items.filter(
-            (item) => !ids.includes(item.product.id)
-          )
+          items: state.items.filter((item) => !ids.includes(item.product.id)),
         }));
       },
 
       clearCart: () => {
-        set({ items: [] });
-      }
+        set({items: []});
+      },
     }),
     {
-      name: "gadget-hub-cart",
+      name: 'gadget-hub-cart',
 
       partialize: (state) => ({
-        items: state.items
-      })
-    }
-  )
+        items: state.items,
+      }),
+    },
+  ),
 );
 
 export function useCartQuantity() {
   return useCartStore((state) =>
-    state.items.reduce(
-      (total, item) => total + item.quantity,
-      0
-    )
+    state.items.reduce((total, item) => total + item.quantity, 0),
   );
 }
-
 
 export function useCartTotal() {
   return useCartStore((state) =>
     state.items.reduce(
-      (total, item) =>
-        total + item.product.price * item.quantity,
-      0
-    )
+      (total, item) => total + item.product.price * item.quantity,
+      0,
+    ),
   );
 }
 
-
 export function useProductQuantity(id: number) {
-  return useCartStore((state) =>
-    state.items.find(
-      (item) => item.product.id === id
-    )?.quantity ?? 0
+  return useCartStore(
+    (state) =>
+      state.items.find((item) => item.product.id === id)?.quantity ?? 0,
   );
 }

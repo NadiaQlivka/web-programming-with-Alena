@@ -1,13 +1,13 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from 'react';
 
-import { getGoods } from "../../api/goods";
-import type { Product } from "../../types/product";
+import {getGoods} from '../../api/goods';
+import type {Product} from '../../types/product';
 
-import { Carousel } from "../../components/Carousel/Carousel";
-import { Advantages } from "../../components/Advantages/Advantages";
-import { Contacts } from "../../components/Contacts/Contacts";
+import {Carousel} from '../../components/Carousel/Carousel';
+import {Advantages} from '../../components/Advantages/Advantages';
+import {Contacts} from '../../components/Contacts/Contacts';
 
-import styles from "./HomePage.module.scss";
+import styles from './HomePage.module.scss';
 
 export function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -25,7 +25,7 @@ export function HomePage() {
       })
       .catch(() => {
         if (active) {
-          setError("Не удалось загрузить товары");
+          setError('Не удалось загрузить товары');
         }
       })
       .finally(() => {
@@ -39,21 +39,13 @@ export function HomePage() {
     };
   }, []);
 
-  const hitProducts = products.filter(
-    (product) => product.isHit
-  );
+  const hitProducts = products.filter((product) => product.isHit);
 
-  const newProducts = products.filter(
-    (product) => product.isNew
-  );
+  const newProducts = products.filter((product) => product.isNew);
 
   return (
     <div className={`container ${styles.homePage}`}>
-
-      <section
-        className={styles.banner}
-        aria-label="Специальное предложение"
-      >
+      <section className={styles.banner} aria-label="Специальное предложение">
         <img
           src="/images/banners/super-sale-banner.png"
           alt="Super Sale — умная колонка Яндекс Станция Лайт всего за 4 990 рублей."
@@ -64,9 +56,7 @@ export function HomePage() {
       </section>
 
       {isLoading ? (
-        <p className={styles.status}>
-          Загрузка товаров...
-        </p>
+        <p className={styles.status}>Загрузка товаров...</p>
       ) : error ? (
         <p className={styles.error} role="alert">
           {error}
@@ -88,11 +78,10 @@ export function HomePage() {
           />
         </>
       )}
-     
+
       <Advantages />
 
       <Contacts />
-
     </div>
   );
 }

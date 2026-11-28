@@ -1,8 +1,8 @@
-import type { CartItem as CartItemType } from "../../types/cart";
+import type {CartItem as CartItemType} from '../../types/cart';
 
-import { Checkbox } from "../Checkbox/Checkbox";
+import {Checkbox} from '../Checkbox/Checkbox';
 
-import styles from "./CartItem.module.scss";
+import styles from './CartItem.module.scss';
 
 interface CartItemProps {
   item: CartItemType;
@@ -20,15 +20,14 @@ export function CartItem({
   onSelect,
   onIncrease,
   onDecrease,
-  onRemove
+  onRemove,
 }: CartItemProps) {
-  const { product, quantity } = item;
+  const {product, quantity} = item;
 
   const totalPrice = product.price * quantity;
 
   return (
     <article className={styles.cartItem}>
-
       <Checkbox
         checked={selected}
         aria-label={`Выбрать ${product.name}`}
@@ -36,19 +35,12 @@ export function CartItem({
       />
 
       <div className={styles.imageContainer}>
-        <img
-          src={product.image}
-          alt={product.name}
-          className={styles.image}
-        />
+        <img src={product.image} alt={product.name} className={styles.image} />
       </div>
 
-      <h3 className={styles.name}>
-        {product.name}
-      </h3>
+      <h3 className={styles.name}>{product.name}</h3>
 
       <div className={styles.quantity}>
-
         <button
           type="button"
           className={styles.quantityButton}
@@ -59,9 +51,7 @@ export function CartItem({
           −
         </button>
 
-        <span className={styles.quantityValue}>
-          {quantity}
-        </span>
+        <span className={styles.quantityValue}>{quantity}</span>
 
         <button
           type="button"
@@ -71,11 +61,10 @@ export function CartItem({
         >
           +
         </button>
-
       </div>
 
       <span className={styles.price}>
-        {totalPrice.toLocaleString("ru-RU")} ₽
+        {totalPrice.toLocaleString('ru-RU')} ₽
       </span>
 
       <button
@@ -86,7 +75,6 @@ export function CartItem({
         <span aria-hidden="true">×</span>
         Удалить
       </button>
-
     </article>
   );
 }

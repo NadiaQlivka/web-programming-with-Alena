@@ -1,4 +1,4 @@
-@use "../../styles/variables" as *;
+@use '../../styles/variables' as *;
 
 .loginPage {
   display: flex;
@@ -10,7 +10,7 @@
   padding: 48px 24px 128px;
 
   background-color: $color-login-background;
-  background-image: url("/images/banners/login-background.png");
+  background-image: url('/images/banners/login-background.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: max(100%, 1800px) auto;

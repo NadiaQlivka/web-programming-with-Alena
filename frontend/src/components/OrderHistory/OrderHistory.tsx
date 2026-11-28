@@ -1,38 +1,36 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from 'react';
 
-import { getOrders } from "../../api/orders";
-import { ApiError } from "../../api/client";
+import {getOrders} from '../../api/orders';
+import {ApiError} from '../../api/client';
 
-import type { Order } from "../../types/order";
+import type {Order} from '../../types/order';
 
-import { getProductWord } from "../../utils/getProductWord";
-import { Button } from "../Button/Button";
+import {getProductWord} from '../../utils/getProductWord';
+import {Button} from '../Button/Button';
 
-import styles from "./OrderHistory.module.scss";
+import styles from './OrderHistory.module.scss';
 
 type HistoryState =
-  | { status: "loading" }
-  | { status: "success"; orders: Order[] }
-  | { status: "error"; message: string };
+  | {status: 'loading'}
+  | {status: 'success'; orders: Order[]}
+  | {status: 'error'; message: string};
 
 function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString("ru-RU", {
-    day: "numeric",
-    month: "2-digit",
-    year: "numeric"
+  return new Date(date).toLocaleDateString('ru-RU', {
+    day: 'numeric',
+    month: '2-digit',
+    year: 'numeric',
   });
 }
 
 export function OrderHistory() {
-
   const [state, setState] = useState<HistoryState>({
-    status: "loading"
+    status: 'loading',
   });
 
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-
     let cancelled = false;
 
     async function loadOrders() {
@@ -41,23 +39,20 @@ export function OrderHistory() {
 
         if (!cancelled) {
           setState({
-            status: "success",
-            orders
+            status: 'success',
+            orders,
           });
         }
-
       } catch (error) {
-
         if (!cancelled) {
           setState({
-            status: "error",
+            status: 'error',
             message:
               error instanceof ApiError
                 ? error.message
-                : "Не удалось загрузить историю заказов."
+                : 'Не удалось загрузить историю заказов.',
           });
         }
-
       }
     }
 
@@ -66,15 +61,14 @@ export function OrderHistory() {
     return () => {
       cancelled = true;
     };
-
   }, [attempt]);
 
   function retry() {
-    setState({ status: "loading" });
+    setState({status: 'loading'});
     setAttempt((previous) => previous + 1);
   }
 
-  if (state.status === "loading") {
+  if (state.status === 'loading') {
     return (
       <section className={styles.message} role="status">
         Загрузка истории заказов...
@@ -82,16 +76,14 @@ export function OrderHistory() {
     );
   }
 
-  if (state.status === "error") {
+  if (state.status === 'error') {
     return (
       <section className={styles.message}>
         <p className={styles.error} role="alert">
           {state.message}
         </p>
 
-        <Button onClick={retry}>
-          Повторить попытку
-        </Button>
+        <Button onClick={retry}>Повторить попытку</Button>
       </section>
     );
   }
@@ -101,46 +93,30 @@ export function OrderHistory() {
       <section className={styles.message}>
         <h2>Пока нет заказов</h2>
 
-        <p>
-          Здесь будут отображаться ваши оформленные заказы.
-        </p>
+        <p>Здесь будут отображаться ваши оформленные заказы.</p>
       </section>
     );
   }
 
   return (
-    <section
-      className={styles.history}
-      aria-label="История заказов"
-    >
-
+    <section className={styles.history} aria-label="История заказов">
       <ul className={styles.list}>
-
         {state.orders.map((order) => (
-          <li
-            key={order.id}
-            className={styles.order}
-          >
-
+          <li key={order.id} className={styles.order}>
             <span className={styles.orderNumber}>
-              № {order.id} от{" "}
-              {formatDate(order.created_at)}
+              № {order.id} от {formatDate(order.created_at)}
             </span>
 
             <span className={styles.quantity}>
-              {order.total_quantity}{" "}
-              {getProductWord(order.total_quantity)}
+              {order.total_quantity} {getProductWord(order.total_quantity)}
             </span>
 
             <span className={styles.price}>
-              {order.total_price.toLocaleString("ru-RU")} ₽
+              {order.total_price.toLocaleString('ru-RU')} ₽
             </span>
-
           </li>
         ))}
-
       </ul>
-
     </section>
   );
 }

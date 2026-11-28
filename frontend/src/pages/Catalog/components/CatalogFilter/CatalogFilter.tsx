@@ -1,11 +1,8 @@
-import { useState } from "react";
+import {useState} from 'react';
 
-import {
-  emptyFilters,
-  type CatalogFilters
-} from "../../../../types/filters";
+import {emptyFilters, type CatalogFilters} from '../../../../types/filters';
 
-import styles from "./CatalogFilter.module.scss";
+import styles from './CatalogFilter.module.scss';
 
 interface CatalogFilterProps {
   categories: string[];
@@ -18,22 +15,18 @@ export default function CatalogFilter({
   categories,
   colors,
   onApply,
-  onReset
+  onReset,
 }: CatalogFilterProps) {
-  const [draft, setDraft] =
-    useState<CatalogFilters>(emptyFilters);
+  const [draft, setDraft] = useState<CatalogFilters>(emptyFilters);
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
-  function toggleValue(
-    field: "categories" | "colors",
-    value: string
-  ) {
+  function toggleValue(field: 'categories' | 'colors', value: string) {
     setDraft((previous) => ({
       ...previous,
       [field]: previous[field].includes(value)
         ? previous[field].filter((item) => item !== value)
-        : [...previous[field], value]
+        : [...previous[field], value],
     }));
   }
 
@@ -41,32 +34,23 @@ export default function CatalogFilter({
     const min = Number(draft.minPrice);
     const max = Number(draft.maxPrice);
 
-    if (
-      !Number.isFinite(min) ||
-      !Number.isFinite(max) ||
-      min < 0 ||
-      max < 0
-    ) {
-      setError("Введите корректную цену");
+    if (!Number.isFinite(min) || !Number.isFinite(max) || min < 0 || max < 0) {
+      setError('Введите корректную цену');
       return;
     }
 
-    if (
-      draft.minPrice !== "" &&
-      draft.maxPrice !== "" &&
-      min > max
-    ) {
-      setError("Минимальная цена больше максимальной");
+    if (draft.minPrice !== '' && draft.maxPrice !== '' && min > max) {
+      setError('Минимальная цена больше максимальной');
       return;
     }
 
-    setError("");
+    setError('');
     onApply(draft);
   }
 
   function handleReset() {
     setDraft(emptyFilters);
-    setError("");
+    setError('');
     onReset();
   }
 
@@ -85,7 +69,7 @@ export default function CatalogFilter({
             onChange={(event) =>
               setDraft({
                 ...draft,
-                minPrice: event.target.value
+                minPrice: event.target.value,
               })
             }
           />
@@ -99,15 +83,13 @@ export default function CatalogFilter({
             onChange={(event) =>
               setDraft({
                 ...draft,
-                maxPrice: event.target.value
+                maxPrice: event.target.value,
               })
             }
           />
         </div>
 
-        {error && (
-          <p className={styles.error}>{error}</p>
-        )}
+        {error && <p className={styles.error}>{error}</p>}
       </section>
 
       <section className={styles.section}>
@@ -118,9 +100,7 @@ export default function CatalogFilter({
             <input
               type="checkbox"
               checked={draft.categories.includes(category)}
-              onChange={() =>
-                toggleValue("categories", category)
-              }
+              onChange={() => toggleValue('categories', category)}
             />
 
             {category}
@@ -136,9 +116,7 @@ export default function CatalogFilter({
             <input
               type="checkbox"
               checked={draft.colors.includes(color)}
-              onChange={() =>
-                toggleValue("colors", color)
-              }
+              onChange={() => toggleValue('colors', color)}
             />
 
             {color}
@@ -147,19 +125,11 @@ export default function CatalogFilter({
       </section>
 
       <div className={styles.buttons}>
-        <button
-          type="button"
-          className={styles.apply}
-          onClick={handleApply}
-        >
+        <button type="button" className={styles.apply} onClick={handleApply}>
           Показать
         </button>
 
-        <button
-          type="button"
-          className={styles.reset}
-          onClick={handleReset}
-        >
+        <button type="button" className={styles.reset} onClick={handleReset}>
           Сбросить
         </button>
       </div>

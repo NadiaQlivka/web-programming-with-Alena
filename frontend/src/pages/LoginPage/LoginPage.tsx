@@ -1,37 +1,35 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import {useState} from 'react';
+import type {FormEvent} from 'react';
 
-import { Button } from "../../components/Button/Button";
-import { Input } from "../../components/Input/Input";
+import {Button} from '../../components/Button/Button';
+import {Input} from '../../components/Input/Input';
 
-import { useAuthStore } from "../../store/authStore";
-import { ApiError } from "../../api/client";
+import {useAuthStore} from '../../store/authStore';
+import {ApiError} from '../../api/client';
 
-import { Modal } from "../../components/Modal/Modal";
+import {Modal} from '../../components/Modal/Modal';
 
-import styles from "./LoginPage.module.scss";
+import styles from './LoginPage.module.scss';
 
 export function LoginPage() {
   const login = useAuthStore((state) => state.login);
   const isLoading = useAuthStore((state) => state.isLoading);
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
-  const [usernameError, setUsernameError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [usernameError, setUsernameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
-  const [serverError, setServerError] = useState("");
+  const [serverError, setServerError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function validate(): boolean {
     const newUsernameError = username.trim()
-      ? ""
-      : "Заполните обязательное поле";
+      ? ''
+      : 'Заполните обязательное поле';
 
-    const newPasswordError = password
-      ? ""
-      : "Заполните обязательное поле";
+    const newPasswordError = password ? '' : 'Заполните обязательное поле';
 
     setUsernameError(newUsernameError);
     setPasswordError(newPasswordError);
@@ -42,9 +40,11 @@ export function LoginPage() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (isSubmitting || isLoading) return;
+    if (isSubmitting || isLoading) {
+      return;
+    }
 
-    setServerError("");
+    setServerError('');
 
     if (!validate()) {
       return;
@@ -55,17 +55,15 @@ export function LoginPage() {
     try {
       await login({
         username: username.trim(),
-        password: password
+        password,
       });
     } catch (error) {
       if (error instanceof ApiError && error.status === 401) {
         setServerError(
-          "Такого пользователя нет, возможно, неправильный логин или пароль — проверьте данные."
+          'Такого пользователя нет, возможно, неправильный логин или пароль — проверьте данные.',
         );
       } else {
-        setServerError(
-          "Не удалось выполнить вход. Попробуйте позже."
-        );
+        setServerError('Не удалось выполнить вход. Попробуйте позже.');
       }
     } finally {
       setIsSubmitting(false);
@@ -75,10 +73,7 @@ export function LoginPage() {
   return (
     <section className={styles.loginPage}>
       <div className={styles.content}>
-
-        <h1 className={styles.title}>
-          Добро пожаловать!
-        </h1>
+        <h1 className={styles.title}>Добро пожаловать!</h1>
 
         <form
           className={styles.form}
@@ -86,7 +81,6 @@ export function LoginPage() {
           noValidate
           aria-busy={isSubmitting}
         >
-
           <Input
             label="Логин"
             name="username"
@@ -102,10 +96,10 @@ export function LoginPage() {
               setUsername(value);
 
               if (value.trim()) {
-                setUsernameError("");
+                setUsernameError('');
               }
 
-              setServerError("");
+              setServerError('');
             }}
           />
 
@@ -125,37 +119,27 @@ export function LoginPage() {
               setPassword(value);
 
               if (value) {
-                setPasswordError("");
+                setPasswordError('');
               }
 
-              setServerError("");
+              setServerError('');
             }}
           />
 
-          <Button
-            type="submit"
-            disabled={isSubmitting || isLoading}
-          >
-            {isSubmitting ? "Входим..." : "Войти"}
+          <Button type="submit" disabled={isSubmitting || isLoading}>
+            {isSubmitting ? 'Входим...' : 'Войти'}
           </Button>
-
         </form>
-
       </div>
 
       <Modal
         isOpen={Boolean(serverError)}
-        onClose={() => setServerError("")}
+        onClose={() => setServerError('')}
         title="Ошибка авторизации"
-        actions={
-          <Button onClick={() => setServerError("")}>
-            Ок
-          </Button>
-        }
+        actions={<Button onClick={() => setServerError('')}>Ок</Button>}
       >
         <p>{serverError}</p>
       </Modal>
-
     </section>
   );
 }
