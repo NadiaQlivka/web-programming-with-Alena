@@ -1,3 +1,5 @@
+@use "../../../../styles/variables" as *;
+
 .filters {
   display: flex;
   flex-direction: column;
@@ -27,7 +29,7 @@
   input[type="checkbox"] {
     width: 18px;
     height: 18px;
-    accent-color: #005bff;
+    accent-color: $color-blue;
     cursor: pointer;
   }
 }
@@ -41,13 +43,13 @@
     min-width: 0;
     box-sizing: border-box;
     padding: 10px;
-    border: 1px solid #cccccc;
+    border: 1px solid $color-gray-blue;
     border-radius: 6px;
     font: inherit;
 
     &:focus {
-      outline: 1px solid #005bff;
-      border-color: #005bff;
+      outline: 1px solid $color-blue;
+      border-color: $color-blue;
     }
   }
 }
@@ -66,27 +68,27 @@
 }
 
 .apply {
-  background: #005bff;
-  border: 1px solid #005bff;
-  color: white;
+  background: $color-blue;
+  border: 1px solid $color-blue;
+  color: $color-white;
 
   &:hover {
-    background: #0048cc;
+    background: $color-blue-dark;
   }
 }
 
 .reset {
-  background: white;
-  color: #ff006b;
-  border: 1px solid #ff006b;
+  background: $color-white;
+  color: $color-pink-dark;
+  border: 1px solid $color-pink-dark;
 
   &:hover {
-    background: #fff0f6;
+    background: rgba($color-pink, 0.1);
   }
 }
 
 .error {
   margin: 0;
   font-size: 12px;
-  color: #ff3b30;
+  color: $color-pink-dark;
 }

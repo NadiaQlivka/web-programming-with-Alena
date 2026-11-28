@@ -2,62 +2,65 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
-  Link
+  Navigate
 } from "react-router-dom";
 
 import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { useAuthStore } from "./store/authStore";
+
 import Catalog from "./pages/Catalog/Catalog";
 
+import { Header } from "./components/Header/Header";
+import { Footer } from "./components/Footer/Footer";
+import { HomePage } from "./pages/HomePage/HomePage";
+import { LoginPage } from "./pages/LoginPage/LoginPage";
+import { CartPage } from "./pages/CartPage/CartPage";
 
 function App() {
   const user = useAuthStore((state) => state.user);
 
   return (
     <BrowserRouter>
-      <nav>
-        <Link to="/">Главная</Link>
-        {" | "}
-        <Link to="/catalog">Каталог</Link>
-        {" | "}
-        <Link to="/cart">Корзина</Link>
-        {" | "}
-        <Link to="/login">Войти</Link>
-      </nav>
 
-      <Routes>
-        <Route
-          path="/"
-          element={<h1>Главная страница</h1>}
-        />
+      <Header />
 
-        <Route
-          path="/login"
-          element={
-            user
-              ? <Navigate to="/" replace />
-              : <h1>Авторизация</h1>
-          }
-        />
-
-        <Route element={<ProtectedRoute />}>
+      <main>
+        <Routes>
           <Route
-            path="/catalog"
-            element={<Catalog />}
+            path="/"
+            element={<HomePage />}
           />
 
           <Route
-            path="/cart"
-            element={<h1>Корзина</h1>}
+            path="/login"
+            element={
+              user
+                ? <Navigate to="/" replace />
+                : <LoginPage />
+            }
           />
-        </Route>
 
-        <Route
-          path="*"
-          element={<h1>Страница не найдена</h1>}
-        />
-      </Routes>
+          <Route element={<ProtectedRoute />}>
+            <Route
+              path="/catalog"
+              element={<Catalog />}
+            />
+
+            <Route
+              path="/cart"
+              element={<CartPage />}
+            />
+          </Route>
+
+          <Route
+            path="*"
+            element={<h1>Страница не найдена</h1>}
+          />
+        </Routes>
+      </main>
+
+      <Footer />
+
     </BrowserRouter>
   );
 }
