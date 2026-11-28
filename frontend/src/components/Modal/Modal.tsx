@@ -1,7 +1,7 @@
-import { useEffect, useId, useRef } from "react";
-import type { ReactNode } from "react";
+import {useEffect, useId, useRef} from 'react';
+import type {ReactNode} from 'react';
 
-import styles from "./Modal.module.scss";
+import styles from './Modal.module.scss';
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,18 +9,18 @@ interface ModalProps {
   title: string;
   children?: ReactNode;
   actions?: ReactNode;
-  size?: "default" | "wide";
+  size?: 'default' | 'wide';
   hideTitle?: boolean;
 }
 
 export function Modal({
-  size = "default",
+  size = 'default',
   hideTitle = false,
   isOpen,
   onClose,
   title,
   children,
-  actions
+  actions,
 }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -28,7 +28,9 @@ export function Modal({
   useEffect(() => {
     const dialog = dialogRef.current;
 
-    if (!dialog) return;
+    if (!dialog) {
+      return;
+    }
 
     if (isOpen && !dialog.open) {
       dialog.showModal();
@@ -46,10 +48,9 @@ export function Modal({
   return (
     <dialog
       ref={dialogRef}
-      className={[
-      styles.modal,
-      size === "wide" ? styles.wide : ""
-    ].filter(Boolean).join(" ")}
+      className={[styles.modal, size === 'wide' ? styles.wide : '']
+        .filter(Boolean)
+        .join(' ')}
       aria-labelledby={titleId}
       onCancel={(event) => {
         event.preventDefault();
@@ -62,7 +63,6 @@ export function Modal({
       }}
     >
       <div className={styles.content}>
-
         <button
           type="button"
           className={styles.closeButton}
@@ -81,26 +81,18 @@ export function Modal({
           </svg>
         </button>
 
-        <h2 id={titleId} className={[
-        styles.title,
-        hideTitle ? styles.visuallyHidden : ""
-       ].filter(Boolean).join(" ")} 
-       >
+        <h2
+          id={titleId}
+          className={[styles.title, hideTitle ? styles.visuallyHidden : '']
+            .filter(Boolean)
+            .join(' ')}
+        >
           {title}
         </h2>
 
-        {children && (
-          <div className={styles.body}>
-            {children}
-          </div>
-        )}
+        {children && <div className={styles.body}>{children}</div>}
 
-        {actions && (
-          <div className={styles.actions}>
-            {actions}
-          </div>
-        )}
-
+        {actions && <div className={styles.actions}>{actions}</div>}
       </div>
     </dialog>
   );

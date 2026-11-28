@@ -1,9 +1,6 @@
-import type {
-  SortField,
-  SortDirection
-} from "../../../../hooks/useCatalog";
+import type {SortField, SortDirection} from '../../../../hooks/useCatalog';
 
-import styles from "./CatalogSort.module.scss";
+import styles from './CatalogSort.module.scss';
 
 interface CatalogSortProps {
   sortField: SortField;
@@ -16,7 +13,7 @@ export default function CatalogSort({
   sortField,
   sortDirection,
   onFieldChange,
-  onDirectionChange
+  onDirectionChange,
 }: CatalogSortProps) {
   return (
     <div className={styles.sort}>
@@ -24,9 +21,7 @@ export default function CatalogSort({
 
       <select
         value={sortField}
-        onChange={(event) =>
-          onFieldChange(event.target.value as SortField)
-        }
+        onChange={(event) => onFieldChange(event.target.value as SortField)}
       >
         <option value="price">Цене</option>
         <option value="rating">Популярности</option>
@@ -37,12 +32,10 @@ export default function CatalogSort({
         type="button"
         aria-label="Изменить направление сортировки"
         onClick={() =>
-          onDirectionChange(
-            sortDirection === "asc" ? "desc" : "asc"
-          )
+          onDirectionChange(sortDirection === 'asc' ? 'desc' : 'asc')
         }
       >
-        {sortDirection === "asc" ? "↑" : "↓"}
+        {sortDirection === 'asc' ? '↑' : '↓'}
       </button>
     </div>
   );

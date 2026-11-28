@@ -1,4 +1,4 @@
-@use "../../styles/variables" as *;
+@use '../../styles/variables' as *;
 
 .cartPage {
   background-color: $color-background;
@@ -39,7 +39,7 @@
   font-weight: $font-weight-medium;
 
   &::after {
-    content: "";
+    content: '';
 
     position: absolute;
     bottom: -1px;

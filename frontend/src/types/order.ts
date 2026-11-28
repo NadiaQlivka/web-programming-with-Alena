@@ -1,6 +1,6 @@
-export type DeliveryType = "pickup" | "delivery";
+export type DeliveryType = 'pickup' | 'delivery';
 
-export type PaymentType = "card" | "cash";
+export type PaymentType = 'card' | 'cash';
 
 export interface OrderItemRequest {
   product_id: number;

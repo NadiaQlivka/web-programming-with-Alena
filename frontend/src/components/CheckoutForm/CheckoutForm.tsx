@@ -1,21 +1,17 @@
-import { useState } from "react";
-import type { FormEvent } from "react";
+import {useState} from 'react';
+import type {FormEvent} from 'react';
 
-import type { CartItem } from "../../types/cart";
+import type {CartItem} from '../../types/cart';
 
-import type {
-  DeliveryType,
-  PaymentType,
-  OrderRequest
-} from "../../types/order";
+import type {DeliveryType, PaymentType, OrderRequest} from '../../types/order';
 
-import { Input } from "../Input/Input";
-import { Button } from "../Button/Button";
-import { Checkbox } from "../Checkbox/Checkbox";
-import { RadioButton } from "../RadioButton/RadioButton";
-import { Select } from "../Select/Select";
+import {Input} from '../Input/Input';
+import {Button} from '../Button/Button';
+import {Checkbox} from '../Checkbox/Checkbox';
+import {RadioButton} from '../RadioButton/RadioButton';
+import {Select} from '../Select/Select';
 
-import styles from "./CheckoutForm.module.scss";
+import styles from './CheckoutForm.module.scss';
 
 interface CheckoutFormProps {
   selectedItems: CartItem[];
@@ -32,26 +28,23 @@ interface FormErrors {
 }
 
 const paymentOptions = [
-  { value: "card", label: "По карте" },
-  { value: "cash", label: "Наличными" }
+  {value: 'card', label: 'По карте'},
+  {value: 'cash', label: 'Наличными'},
 ];
 
 export function CheckoutForm({
   selectedItems,
   isSubmitting,
-  onSubmit
+  onSubmit,
 }: CheckoutFormProps) {
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
 
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
+  const [delivery, setDelivery] = useState<DeliveryType>('pickup');
 
-  const [delivery, setDelivery] =
-    useState<DeliveryType>("pickup");
+  const [address, setAddress] = useState('');
 
-  const [address, setAddress] = useState("");
-
-  const [payment, setPayment] =
-    useState<PaymentType | "">("");
+  const [payment, setPayment] = useState<PaymentType | ''>('');
 
   const [packaging, setPackaging] = useState(false);
 
@@ -60,7 +53,7 @@ export function CheckoutForm({
   function clearError(field: keyof FormErrors) {
     setErrors((previous) => ({
       ...previous,
-      [field]: undefined
+      [field]: undefined,
     }));
   }
 
@@ -68,35 +61,32 @@ export function CheckoutForm({
     const newErrors: FormErrors = {};
 
     const normalizedPhone = phone.trim();
-    const digits = normalizedPhone.replace(/\D/g, "");
+    const digits = normalizedPhone.replace(/\D/g, '');
 
     if (!normalizedPhone) {
-      newErrors.phone = "Заполните обязательное поле";
+      newErrors.phone = 'Заполните обязательное поле';
     } else if (
       !/^\+?[0-9\s()-]{10,18}$/.test(normalizedPhone) ||
       digits.length < 10 ||
       digits.length > 15
     ) {
-      newErrors.phone = "Введите корректный номер телефона";
+      newErrors.phone = 'Введите корректный номер телефона';
     }
 
-    if (
-      email.trim() &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())
-    ) {
-      newErrors.email = "Введите корректный E-mail";
+    if (email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      newErrors.email = 'Введите корректный E-mail';
     }
 
-    if (delivery === "delivery" && !address.trim()) {
-      newErrors.address = "Заполните обязательное поле";
+    if (delivery === 'delivery' && !address.trim()) {
+      newErrors.address = 'Заполните обязательное поле';
     }
 
     if (!payment) {
-      newErrors.payment = "Выберите способ оплаты";
+      newErrors.payment = 'Выберите способ оплаты';
     }
 
     if (selectedItems.length === 0) {
-      newErrors.items = "Выберите товары для оформления заказа";
+      newErrors.items = 'Выберите товары для оформления заказа';
     }
 
     setErrors(newErrors);
@@ -104,12 +94,12 @@ export function CheckoutForm({
     return Object.keys(newErrors).length === 0;
   }
 
-  async function handleSubmit(
-    event: FormEvent<HTMLFormElement>
-  ) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    if (isSubmitting) return;
+    if (isSubmitting) {
+      return;
+    }
 
     if (!validate() || !payment) {
       return;
@@ -118,30 +108,27 @@ export function CheckoutForm({
     const orderData: OrderRequest = {
       items: selectedItems.map((item) => ({
         product_id: item.product.id,
-        quantity: item.quantity
+        quantity: item.quantity,
       })),
 
       phone: phone.trim(),
       email: email.trim() || null,
 
       delivery,
-      address:
-        delivery === "delivery"
-          ? address.trim()
-          : null,
+      address: delivery === 'delivery' ? address.trim() : null,
 
       payment,
-      packaging
+      packaging,
     };
 
     const success = await onSubmit(orderData);
 
     if (success) {
-      setPhone("");
-      setEmail("");
-      setDelivery("pickup");
-      setAddress("");
-      setPayment("");
+      setPhone('');
+      setEmail('');
+      setDelivery('pickup');
+      setAddress('');
+      setPayment('');
       setPackaging(false);
       setErrors({});
     }
@@ -149,10 +136,7 @@ export function CheckoutForm({
 
   return (
     <section className={styles.checkout}>
-
-      <h2 className={styles.title}>
-        Оформление заказа
-      </h2>
+      <h2 className={styles.title}>Оформление заказа</h2>
 
       <form
         className={styles.form}
@@ -160,9 +144,7 @@ export function CheckoutForm({
         noValidate
         aria-busy={isSubmitting}
       >
-
         <div className={styles.contactFields}>
-
           <Input
             label="Телефон"
             name="phone"
@@ -175,7 +157,7 @@ export function CheckoutForm({
             error={errors.phone}
             onChange={(event) => {
               setPhone(event.target.value);
-              clearError("phone");
+              clearError('phone');
             }}
           />
 
@@ -190,10 +172,9 @@ export function CheckoutForm({
             error={errors.email}
             onChange={(event) => {
               setEmail(event.target.value);
-              clearError("email");
+              clearError('email');
             }}
           />
-
         </div>
 
         <div
@@ -201,16 +182,15 @@ export function CheckoutForm({
           role="group"
           aria-label="Способ получения"
         >
-
           <RadioButton
             name="delivery"
             label="Самовывоз"
             value="pickup"
-            checked={delivery === "pickup"}
+            checked={delivery === 'pickup'}
             disabled={isSubmitting}
             onChange={() => {
-              setDelivery("pickup");
-              clearError("address");
+              setDelivery('pickup');
+              clearError('address');
             }}
           />
 
@@ -218,16 +198,14 @@ export function CheckoutForm({
             name="delivery"
             label="Доставка"
             value="delivery"
-            checked={delivery === "delivery"}
+            checked={delivery === 'delivery'}
             disabled={isSubmitting}
-            onChange={() => setDelivery("delivery")}
+            onChange={() => setDelivery('delivery')}
           />
-
         </div>
 
-        {delivery === "delivery" && (
+        {delivery === 'delivery' && (
           <div className={styles.addressField}>
-
             <Input
               label="Адрес доставки"
               name="address"
@@ -239,10 +217,9 @@ export function CheckoutForm({
               error={errors.address}
               onChange={(event) => {
                 setAddress(event.target.value);
-                clearError("address");
+                clearError('address');
               }}
             />
-
           </div>
         )}
 
@@ -258,9 +235,9 @@ export function CheckoutForm({
           onChange={(event) => {
             const value = event.target.value;
 
-            if (value === "card" || value === "cash") {
+            if (value === 'card' || value === 'cash') {
               setPayment(value);
-              clearError("payment");
+              clearError('payment');
             }
           }}
         />
@@ -280,17 +257,10 @@ export function CheckoutForm({
           </p>
         )}
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-        >
-          {isSubmitting
-            ? "Оформляем заказ..."
-            : "Оформить заказ"}
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? 'Оформляем заказ...' : 'Оформить заказ'}
         </Button>
-
       </form>
-
     </section>
   );
 }
